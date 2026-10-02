@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Scadenze</title>
+  <meta name="theme-color" content="#14213d" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/icon-180.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Scadenze" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Accesso -->
+  <section id="v-login" class="vista" hidden>
+    <div class="login">
+      <img src="icons/icon-192.png" alt="" width="72" height="72" />
+      <h1>Scadenze</h1>
+      <p class="sotto">Le scadenze del negozio, condivise con tutti i colleghi.</p>
+      <form id="f-login">
+        <label>Il tuo nome
+          <input id="l-nome" autocomplete="given-name" required placeholder="Es. Christian" />
+        </label>
+        <label id="l-codice-box">Codice negozio
+          <input id="l-codice" type="password" required autocomplete="current-password" />
+        </label>
+        <p id="l-errore" class="errore" hidden></p>
+        <button class="btn primario grande" type="submit">Entra</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Lista -->
+  <section id="v-lista" class="vista" hidden>
+    <header class="testata">
+      <div class="riga-titolo">
+        <h1>Scadenze</h1>
+        <button id="b-menu" class="btn-icona" aria-label="Menu">⋯</button>
+      </div>
+      <div id="demo-banner" class="banner" hidden>Modalità demo: i dati restano solo su questo telefono.</div>
+      <div id="riepilogo" class="riepilogo"></div>
+      <div class="schede" role="tablist">
+        <button role="tab" data-filtro="ritirare" class="scheda attiva">Da ritirare <span id="n-ritirare" class="conta">0</span></button>
+        <button role="tab" data-filtro="tutti" class="scheda">Tutti <span id="n-tutti" class="conta">0</span></button>
+      </div>
+      <input id="cerca" class="cerca" type="search" placeholder="Cerca nome o codice…" />
+    </header>
+    <ul id="lista" class="lista"></ul>
+    <div id="vuoto" class="vuoto" hidden></div>
+    <button id="b-aggiungi" class="fab">＋ Aggiungi prodotto</button>
+  </section>
+
+  <!-- Foglio: aggiungi / modifica -->
+  <div id="s-form" class="foglio" hidden>
+    <div class="foglio-corpo">
+      <div class="foglio-testa">
+        <button class="btn-testo" data-chiudi>Annulla</button>
+        <h2 id="form-titolo">Nuovo prodotto</h2>
+        <span style="width:64px"></span>
+      </div>
+      <form id="f-prodotto" novalidate>
+        <button type="button" id="b-scansiona" class="btn scan">
+          <span aria-hidden="true">▥</span> Scansiona codice a barre
+        </button>
+        <label>Codice
+          <input id="p-codice" inputmode="numeric" autocomplete="off" placeholder="Scansiona o scrivi" />
+        </label>
+        <p id="p-noto" class="nota-ok" hidden></p>
+        <label>Nome prodotto
+          <input id="p-nome" autocomplete="off" required placeholder="Es. Biscotti al cioccolato 300g" />
+        </label>
+        <label>Scadenza
+          <input id="p-scadenza" inputmode="numeric" autocomplete="off" required placeholder="GG/MM/AAAA" maxlength="10" />
+        </label>
+        <p id="p-anteprima" class="anteprima"></p>
+        <div class="foto-campo">
+          <span class="etichetta">Foto</span>
+          <label class="foto-box" id="foto-box">
+            <input id="p-foto" type="file" accept="image/*" capture="environment" hidden />
+            <img id="p-foto-img" alt="" hidden />
+            <span id="p-foto-vuoto">📷 Scatta una foto</span>
+          </label>
+          <button type="button" id="b-foto-via" class="btn-testo piccolo" hidden>Rimuovi foto</button>
+        </div>
+        <p id="p-errore" class="errore" hidden></p>
+        <button type="submit" class="btn primario grande">Salva</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Foglio: dettaglio -->
+  <div id="s-dettaglio" class="foglio" hidden>
+    <div class="foglio-corpo">
+      <div class="foglio-testa">
+        <button class="btn-testo" data-chiudi>Chiudi</button>
+        <h2>Prodotto</h2>
+        <button class="btn-testo" id="b-modifica">Modifica</button>
+      </div>
+      <div id="dettaglio"></div>
+      <button id="b-ritirato" class="btn ritirato grande">✓ Ritirato dallo scaffale</button>
+    </div>
+  </div>
+
+  <!-- Menu -->
+  <div id="s-menu" class="foglio" hidden>
+    <div class="foglio-corpo">
+      <div class="foglio-testa">
+        <span style="width:64px"></span>
+        <h2>Menu</h2>
+        <button class="btn-testo" data-chiudi>Chiudi</button>
+      </div>
+      <p id="menu-chi" class="sotto"></p>
+      <button id="b-cambia-nome" class="btn grande">Cambia il mio nome</button>
+      <button id="b-esci" class="btn grande">Esci da questo telefono</button>
+      <p class="sotto piccolo">Un prodotto finisce in “Da ritirare” quando mancano <b id="menu-giorni">3</b> giorni o meno.</p>
+    </div>
+  </div>
+
+  <!-- Scanner -->
+  <div id="s-scanner" class="scanner" hidden>
+    <video id="video" playsinline muted></video>
+    <div class="mirino"></div>
+    <p class="scanner-testo">Inquadra il codice a barre</p>
+    <button id="b-scanner-chiudi" class="btn grande scanner-chiudi">Annulla</button>
+  </div>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

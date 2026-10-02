@@ -1,0 +1,23 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Solo chi è entrato con l'account del negozio può leggere e scrivere.
+    function negozio() {
+      return request.auth != null && request.auth.token.email == "negozio@scadenze-app.it";
+    }
+    function valido() {
+      let d = request.resource.data;
+      return d.nome is string && d.nome.size() > 0 && d.nome.size() < 200
+        && d.scadenza is string && d.scadenza.size() == 10
+        && (!('foto' in d) || d.foto == null || (d.foto is string && d.foto.size() < 200000));
+    }
+    match /prodotti/{id} {
+      allow read, delete: if negozio();
+      allow create, update: if negozio() && valido();
+    }
+    match /catalogo/{codice} {
+      allow read: if negozio();
+      allow write: if negozio() && request.resource.data.nome is string;
+    }
+  }
+}
