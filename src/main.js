@@ -392,13 +392,6 @@ $("#b-menu").addEventListener("click", () => {
   $("#menu-chi").textContent = `Sei entrato come ${memoria.get("nome") || "?"}${dati.demo ? " (modalità demo)" : ""}.`;
   apri("#s-menu");
 });
-$("#b-cambia-nome").addEventListener("click", () => {
-  const n = prompt("Il tuo nome", memoria.get("nome") || "");
-  if (n && n.trim()) {
-    memoria.set("nome", n.trim());
-    $("#menu-chi").textContent = `Sei entrato come ${n.trim()}.`;
-  }
-});
 $("#b-esci").addEventListener("click", async () => {
   if (!confirm("Vuoi uscire? Per rientrare servirà il codice negozio.")) return;
   stopAscolto?.();
