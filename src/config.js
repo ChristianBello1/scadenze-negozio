@@ -20,4 +20,4 @@ export const firebaseConfig = {
 export const EMAIL_NEGOZIO = "negozio@scadenze-app.it";
 
 // Quanti giorni prima della scadenza un prodotto finisce in "Da ritirare".
-export const GIORNI_AVVISO = 3;
+export const GIORNI_AVVISO = 7;

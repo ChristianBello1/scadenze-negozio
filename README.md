@@ -44,9 +44,9 @@ Al primo avvio ognuno scrive il proprio nome e il codice negozio. Poi resta coll
 
 ## Come funziona
 
-- **Da ritirare**: prodotti che scadono entro 3 giorni (o già scaduti). Il numero si cambia in `GIORNI_AVVISO` in `src/config.js`.
+- **Da ritirare**: prodotti che scadono entro 7 giorni (o già scaduti). Il numero si cambia in `GIORNI_AVVISO` in `src/config.js`.
 - **Countdown**: mesi → settimane → giorni (“tra 5 mesi”, “tra 2 settimane”, “tra 9 giorni”… “domani”, “oggi”, “scaduto ieri”).
-- **Colori**: verde oltre 30 giorni · giallo 8-30 · arancione 4-7 · rosso 3 o meno.
+- **Colori**: verde oltre 30 giorni · giallo 8-30 · arancione 4-7 · rosso 3 o meno (in “Da ritirare” finiscono già da 7 giorni).
 - **Ritirato**: dal dettaglio del prodotto, tocca “✓ Ritirato dallo scaffale”: sparisce dalla lista (c'è “Annulla” per qualche secondo).
 - **Prodotto già visto**: se scansioni un codice già registrato in passato, nome e foto si compilano da soli.
 - **Scadenza veloce**: si scrivono solo numeri, le barre si mettono da sole. `05032027` = 05/03/2027.
