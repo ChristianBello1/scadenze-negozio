@@ -74,12 +74,8 @@ export function creaFirebase(config, emailNegozio) {
       deleteDoc(doc(db, "prodotti", id));
     },
     async cercaCatalogo(codice) {
-      try {
-        const s = await getDoc(doc(db, "catalogo", codice));
-        return s.exists() ? s.data() : null;
-      } catch {
-        return null;
-      }
+      const s = await getDoc(doc(db, "catalogo", codice));
+      return s.exists() ? s.data() : null;
     },
   };
 }

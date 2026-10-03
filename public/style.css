@@ -85,6 +85,7 @@ input:not([type=file]) {
 input:focus { outline: none; border-color: var(--inchiostro); }
 .errore { color: var(--urgente); font-weight: 600; margin: 12px 0 0; }
 .nota-ok { color: var(--ok); font-size: 14px; font-weight: 600; margin: 6px 0 0; }
+.nota-info { color: var(--tenue); font-size: 14px; font-weight: 600; margin: 6px 0 0; }
 .anteprima { margin: 8px 0 0; min-height: 22px; font-weight: 600; }
 
 /* Accesso */

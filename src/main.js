@@ -249,19 +249,59 @@ function aggiornaAnteprima() {
   a.style.color = `var(--${c.livello === "scaduto" ? "urgente" : c.livello})`;
 }
 
+// Lo stesso codice a barre può essere letto come EAN-13 o UPC-A (con/senza 0 iniziale)
+function varianti(codice) {
+  const v = [codice];
+  if (/^\d{12}$/.test(codice)) v.push("0" + codice);
+  if (/^0\d{12}$/.test(codice)) v.push(codice.slice(1));
+  return v;
+}
+
 async function codiceInserito(codice) {
+  const n = $("#p-noto");
+  n.hidden = true;
   if (!codice) return;
-  const noto = await dati.cercaCatalogo(codice);
-  if (noto && $("#p-codice").value === codice) {
+  n.className = "nota-info";
+  n.textContent = "Controllo se è già stato registrato…";
+  n.hidden = false;
+
+  const codici = varianti(codice);
+  // 1) prodotti attualmente in lista  2) archivio dei prodotti visti in passato
+  let noto = prodotti.find((p) => codici.includes(p.codice) && p.nome) || null;
+  let errore = false;
+  for (const c of codici) {
+    if (noto) break;
+    try {
+      noto = await dati.cercaCatalogo(c);
+    } catch {
+      errore = true;
+    }
+  }
+  if ($("#p-codice").value.trim() !== codice) return; // il codice è cambiato nel frattempo
+
+  if (noto) {
     if (!$("#p-nome").value) $("#p-nome").value = noto.nome;
     if (!fotoCorrente && noto.foto) impostaFoto(noto.foto);
-    const n = $("#p-noto");
+    n.className = "nota-ok";
     n.textContent = "✓ Prodotto già registrato in passato: nome e foto compilati";
-    n.hidden = false;
     $("#p-scadenza").focus();
+  } else if (errore) {
+    n.className = "nota-info";
+    n.textContent = "Non riesco a controllare l'archivio (connessione?): compila a mano";
+  } else {
+    n.className = "nota-info";
+    n.textContent = "Prodotto nuovo: scrivi nome e scatta la foto";
+    $("#p-nome").focus();
   }
 }
 $("#p-codice").addEventListener("change", (e) => codiceInserito(e.target.value.trim()));
+// Se il codice viene scritto a mano, controlla appena ha la lunghezza di un codice a barre
+let timerCodice;
+$("#p-codice").addEventListener("input", (e) => {
+  clearTimeout(timerCodice);
+  const v = e.target.value.trim();
+  if (/^(\d{8}|\d{12,13})$/.test(v)) timerCodice = setTimeout(() => codiceInserito(v), 500);
+});
 
 $("#f-prodotto").addEventListener("submit", async (e) => {
   e.preventDefault();

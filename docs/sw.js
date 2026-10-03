@@ -1,6 +1,6 @@
 // Service worker: permette di installare l'app e di aprirla anche senza rete.
-const CACHE = "scadenze-musyueu9";
-const BASE = ["./", "index.html", "style.css", "app.js", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "chunks/chunk-IHRIUEAN.js", "chunks/data-firebase-TFNDJUSP.js", "chunks/esm-GH2I3F62.js"];
+const CACHE = "scadenze-muszdccz";
+const BASE = ["./", "index.html", "style.css", "app.js", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png", "chunks/chunk-IHRIUEAN.js", "chunks/data-firebase-GLNDNQVK.js", "chunks/esm-GH2I3F62.js"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(BASE)).then(() => self.skipWaiting()));
